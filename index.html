@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+
+</head>
+
+<body>
+    <h1>Hello World!</h1>
+    <div id="future"></div>
+    <form id="form" id="chat_form">
+        <input id="chat_input" type="text">
+        <input type="submit" value="Send">
+    </form>
+    <script src="/jquery/dist/jquery.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>  
+        var socket = io.connect('http://localhost:4200');
+        var a = Number(prompt("room Id:"));
+        (function validation(b) {
+            if (b == 1 || b == 2) {
+                socket.emit('join', { roomId: a, userId: localStorage.getItem("userId") });
+            } else {
+                alert("Room Not Found!");
+                a = Number(prompt("room Id:"));
+                validation(a);
+            }
+        }(a));
+        socket.on('messages', function (data) {
+            console.log(data);
+            $('#future').append("<p>" + data + "</p><br/>");
+        });
+        socket.on('broad', function (data) {
+            $('#future').append("<p id=" + data.id + " >" + data.message + " </p><br/>");
+        });
+        $('form').submit(function (e) {
+            e.preventDefault();
+            var message = $('#chat_input').val();
+            socket.emit('messages', { roomId: a, message });
+        });
+        window.on
+        window.addEventListener("beforeunload", function (e) {
+            socket.emit('disconnect', { roomId: a, userId: localStorage.getItem("userId") });
+            (e || window.event).returnValue = null;
+            return null;
+        });
+    </script>
+</body>
+
+</html>

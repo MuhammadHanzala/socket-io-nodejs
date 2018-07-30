@@ -1,0 +1,14 @@
+{
+    "rooms": [
+        {
+            "name": "First",
+            "id": 1,
+            "participants": []
+        },
+        {
+            "name": "Second",
+            "id": 2,
+            "participants": []
+        }
+    ]
+}
